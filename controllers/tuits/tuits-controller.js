@@ -36,3 +36,4 @@ export default (app) => {
  app.put('/api/tuits/:tid', updateTuit);
  app.delete('/api/tuits/:tid', deleteTuit);
 }
+

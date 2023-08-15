@@ -5,13 +5,14 @@ import UserController from "./users/users-controller.js";
 import TuitsController from "./controllers/tuits/tuits-controller.js";
 import AuthController from "./users/auth-controller.js";
 import session from "express-session";
-
+import mongoose from "mongoose";
+mongoose.connect("mongodb://127.0.0.1:27017/tuiter");
 const app = express();
 app.use(express.json());
 app.use(
     cors({
       credentials: true,
-      origin: "http://localhost:3000",
+      origin: process.env.FRONTEND_URL,
     })
    );
    const sessionOptions = {
