@@ -5,10 +5,7 @@ import UserController from "./users/users-controller.js";
 import TuitsController from "./controllers/tuits/tuits-controller.js";
 import AuthController from "./users/auth-controller.js";
 import session from "express-session";
-import "dotenv/config";
-//import mongoose from "mongoose";
 
-//mongoose.connect("mongodb://127.0.0.1:27017/tuiter");
 const app = express();
 app.use(express.json());
 app.use(
@@ -60,12 +57,12 @@ app.use(
 // }
 // app.use(session(sessionOptions));
    
-const port = process.env.PORT || 4000;
+//const port = process.env.PORT || 4000;
 HelloController(app);
 UserController(app);
 TuitsController(app);
 AuthController(app);;
-app.listen(port);
+app.listen(process.env.PORT || 4000);
 
 
 
