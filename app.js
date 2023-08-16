@@ -6,13 +6,34 @@ import TuitsController from "./controllers/tuits/tuits-controller.js";
 import AuthController from "./users/auth-controller.js";
 import session from "express-session";
 import mongoose from "mongoose";
-mongoose.connect("mongodb://127.0.0.1:27017/tuiter");
+const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/tuiter';
+mongoose.connect(CONNECTION_STRING);
+//mongoose.connect("mongodb+srv://giuseappi:supersecretpassword@cluster0.q7diotv.mongodb.net/?retryWrites=true&w=majority");
+
+// const tuitsSchema = new mongoose.Schema(
+//   {
+//     tuits : String,
+//     likes : Number,
+//     liked : Boolean,
+//   },
+//   {collection : "tuits"}
+// )
+
+// const Tuit = mongoose.model("Tuit",tuitsSchema);
+
+// const findAllTuits= async() =>{
+//   const tuits = await Tuit.find().exec();
+//   console.log(tuits);
+// }
+
+// findAllTuits();
+
 const app = express();
 app.use(express.json());
 app.use(
     cors({
       credentials: true,
-      origin: process.env.FRONTEND_URL,
+      origin: 'https://a5--famous-kheer-8b1fff.netlify.app'
     })
    );
    const sessionOptions = {
@@ -34,6 +55,7 @@ app.use(
         secure: true
       }
     })
+    
    );
 // import "dotenv/config";
 // import session from "express-session";

@@ -1,34 +1,51 @@
 import posts from "./tuits.js";
-let tuits = posts;
+//let tuits = posts;
+import * as tuitsDao from "./tuits-dao.js";
 
-const createTuit = (req, res) => {
+
+const createTuit = async (req, res) => {
     const newTuit = req.body;
-    newTuit._id = (new Date()).getTime()+'';
+    //newTuit._id = (new Date()).getTime()+'';
     newTuit.likes = 0;
     newTuit.liked = false;
-    newTuit.dislikes=0;
-    tuits.push(newTuit);
-    res.json(newTuit);
+    newTuit.dislikes = 0;
+    newTuit.retuits = 0;
+    newTuit.topic="Default topic";
+    newTuit.username="guest_user";
+    newTuit.handle="@guest";
+    newTuit.time="2h";
+    newTuit.title="default title";
+    newTuit.image = "nasa.png";
+    const insertedTuit = await tuitsDao.createTuit(newTuit);
+    res.json(insertedTuit);   
+  }
   
-}
-const findTuits = (req, res) => res.json(tuits);
+  
+const findTuits = async(req, res) =>{
+    const tuits = await tuitsDao.findTuits();
+    console.log(tuits);
+    res.json(tuits);
+} 
 
-const updateTuit = (req, res) => {
-    const tuitdId = req.params.tid;
+const updateTuit = async (req, res) => {
+    const tuitdIdToUpdate = req.params.tid;
     const updates = req.body;
-    const tuitIndex = tuits.findIndex((t) => t._id === tuitdId)
-    tuits[tuitIndex] = {...tuits[tuitIndex], ...updates};
-    res.sendStatus(200);
+    //const tuitIndex = tuits.findIndex((t) => t._id === tuitdIdToUpdate)
+    //tuits[tuitIndex] = {...tuits[tuitIndex], ...updates};
+    const status = await tuitsDao.updateTuit(tuitdIdToUpdate, updates);
+    res.json(status);
+  }
   
-}
+  
 
-const deleteTuit = (req, res) => {
+const deleteTuit = async (req, res) => {
     const tuitdIdToDelete = req.params.tid;
-    tuits = tuits.filter((t) =>
-      t._id !== tuitdIdToDelete);
-    res.sendStatus(200);
+    const status = await tuitsDao.deleteTuit(tuitdIdToDelete);
+    //tuits = tuits.filter(t =>t._id !== tuitdIdToDelete);
+    res.json(status);
+  }
   
-}
+  
 
 export default (app) => {
  app.post('/api/tuits', createTuit);
